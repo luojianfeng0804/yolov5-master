@@ -1,0 +1,24 @@
+
+#环境配置
+cuda 10.2
+cudnn 7.6.5
+
+conda create -n yolov5deepsort python=3.8
+conda activate yolov5deepsort
+conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 -c pytorch
+
+pip install requests
+pip install -r requirements.txt
+
+
+#验证
+	1.下载权重ckpt.t7放入deep_sort_pytorch\deep_sort\deep\checkpoint
+	2.track.py 修改--yolo_weights --source并运行
+
+#训练自己数据集
+	1.同yolov5训练过程得到权重
+	2.修改yolov5/models/yolov5s.yaml的nc为你数据集类别，不含背景
+	不需要训练deepsort，因为2者训练是独立的
+	
+#预测
+	1.track.py 修改--yolo_weights --source并运行
