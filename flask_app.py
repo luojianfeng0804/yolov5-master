@@ -1,69 +1,68 @@
-from models.experimental import attempt_load
-from utils.torch_utils import select_device
+
 from PIL import Image
 import base64
 import io
 from flask import Flask, request, jsonify,render_template
-
 import json
 import numpy as np
-from backend.predict import predict
-from pathlib import Path
-from models.common import DetectMultiBackend
 import cv2
 import os
-from utils.datasets import IMG_FORMATS, VID_FORMATS, LoadImages, LoadStreams
+from yolov5.utils.torch_utils import select_device
+from yolov5.models.experimental import attempt_load
+
 # 传入__name__实例化Flask
 app = Flask(__name__)
 app.debug = True  # Flask内置了调试模式，可以自动重载代码并显示调试信息
 app.debug = True  # Flask内置了调试模式，可以自动重载代码并显示调试信息
 # 读取flask配置
-with open('./backend/flask_config.json','r',encoding='utf8')as fp:
-    opt = json.load(fp)
-    print('Flask Config : ', opt)
+from track_test import yolo_predict
 
 # 选择设备
 device = select_device("0")
 # 加载模型
 #model = attempt_load(opt['weights'], map_location=device)
-model = attempt_load('weights-qc/best.pt', map_location=device)
-model0 = attempt_load('weights-qc/tooth_best.pt', map_location=device)
+model = attempt_load('weights/best.pt', map_location=device)
+model0 = attempt_load('weights/tooth_best.pt', map_location=device)
+ry_model = attempt_load('weights/ry_best.pt', map_location=device)
+
 @app.route('/predict/', methods=['POST'])
 
 # 响应POST消息的预测函数
 def get_prediction():
     import time
-    from Ubuntu_video import smooth_video
-    from effNet import effNet
     imgdata = []
-    start =time.time()
+    start = time.time()
+    type_int = request.args.get("type")
     f = request.files.get('pic')
     fname = f.filename
     print(fname)
-    file_path = os.path.join(opt['source'], f.filename)  # filename是f的固有属性
+    file_path = os.path.join('source', f.filename)  # filename是f的固有属性
+    print(file_path)
     f.save(file_path)
-    #LoadImages(file_path,img_size=opt['imgsz'])
-    path1 = smooth_video(file_path)
-    #print(path1)
-    msg = 'no decayed tooth'
-    if len(os.listdir(path1))==0:
-        print(1)
-        return jsonify({"code":0,"msg":msg,"data":imgdata})
-    path1 = effNet(path1)
-    if len(os.listdir(path1))==0:
-        print(2)
-        return jsonify({"code":0,"msg":msg,"data":imgdata})
-    fname = fname[:-4]    
-    imgdata = predict(opt, model,dataset, fname) # 预测图像
+    #img_path = ""
+    if type_int == 0:
+        img_path = yolo_predict(file_path, model, model0)  # 预测图像
+    else:
+        img_path = yolo_predict(file_path, ry_model, model0)  # 预测图像
+    print('f')
+    fname = fname[:-4]
+    int_name = []
+    folderlist = os.listdir(img_path)
+    for filename in folderlist:
+        filename = int(filename[:-4])
+        int_name.append(filename)
+    int_name.sort()
+    for filename in int_name:
+        print(filename)
+        imgdata.append('http://101.201.208.143/'+img_path+'/'+str(filename)+'.jpg')
     end = time.time()
-    print('Running time1: %s Seconds'%(end1-start))
-    print('trans time: %s Seconds'%(end2-end1))
     print('Running time: %s Seconds'%(end-start))
-    if len(imgdata)==0 :
+    if len(imgdata) == 0 :
         msg = 'no decayed tooth'
-    else :
+    else:
         msg = 'have decayed tooth'
-    return jsonify({"code":0,"msg":msg,"data":imgdata})
+    print(type_int)
+    return jsonify({"code": type_int, "msg": msg, "data": imgdata})
 
 @app.after_request
 def add_headers(response):
