@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        .fa{
+            width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="fa">
+    <form role="form" enctype="multipart/form-data" id="uploadForm" method="post">
+
+        <div class="form-group">
+            <label for="inputfile">封面</label>
+            <input type="file" id="inputfile" name="pic">
+            <div id="#img">
+            </div>
+        </div>
+        <button type="button" class="btn btn-default" onclick="doUpload()">上传</button>
+    </form>
+
+</div>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function GetUrl()
+　　{
+	var protocol = window.location.protocol.toString();
+	// var host =  window.location.host.toString();
+	var host =  document.domain.toString();
+	var port = window.location.port.toString();
+	var url = protocol + '//' + host + ":5000/predict/";
+	return url;
+	}
+    const URL = GetUrl()
+    function doUpload() {
+        var formData = new FormData($("#uploadForm")[0]);
+        //console.log(formData);
+        
+        $.ajax(
+            {
+            url: URL,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                //alert(res.msg)
+                var data_arry = res.data
+                var str =''
+                $(data_array).each(function(k,v){
+                    console.log(v)
+                    str = str + '<img src="'+ v +'" width="200px" height="200px">'
+                })
+                /*for (img0 of data_arry){
+                    var bytes = decodeBase64(img0)
+                    str = str + '<img src="'+bytes+'" width="200px" height="200px">'
+                }*/
+                //<img src="data:;base64,{{ img_stream }}">
+                
+                $('#img').html(str)
+            },
+        });
+    }
+</script>

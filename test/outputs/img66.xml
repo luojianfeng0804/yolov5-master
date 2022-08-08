@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<annotation>
+<folder>test</folder>
+<filename>img66.jpg</filename>
+<path>D:\ReCode\yolov5-master\test\img66.jpg</path>
+<source>
+    <database>Unknown</database>
+</source>
+<size>
+    <width>1280</width>
+    <height>720</height>
+    <depth>3</depth>
+</size>
+
+<segmented>0</segmented>
+</annotation>

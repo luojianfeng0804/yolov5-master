@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<annotation>
+<folder>onnx</folder>
+<filename>20220404140244.jpg</filename>
+<path>D:\onnx\20220404140244.jpg</path>
+<source>
+    <database>Unknown</database>
+</source>
+<size>
+    <width>960</width>
+    <height>544</height>
+    <depth>3</depth>
+</size>
+
+<segmented>0</segmented>
+    <object>
+    <name>quchi</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>373</xmin>
+        <ymin>78</ymin>
+        <xmax>692</xmax>
+        <ymax>299</ymax>
+    </bndbox>
+</object>
+    <object>
+    <name>tooth</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>326</xmin>
+        <ymin>0</ymin>
+        <xmax>728</xmax>
+        <ymax>314</ymax>
+    </bndbox>
+</object>
+    <object>
+    <name>quchi</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>-3</xmin>
+        <ymin>52</ymin>
+        <xmax>184</xmax>
+        <ymax>204</ymax>
+    </bndbox>
+</object>
+    <object>
+    <name>tooth</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>-1</xmin>
+        <ymin>4</ymin>
+        <xmax>352</xmax>
+        <ymax>325</ymax>
+    </bndbox>
+</object>
+    <object>
+    <name>quchi</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>293</xmin>
+        <ymin>157</ymin>
+        <xmax>330</xmax>
+        <ymax>249</ymax>
+    </bndbox>
+</object>
+</annotation>
