@@ -33,19 +33,20 @@ def get_prediction():
     imgdata = []
     start = time.time()
     type_int = request.args.get("type")
-    f = request.files.get('pic')
-    fname = f.filename
-    print(fname)
-    file_path = os.path.join('source', f.filename)  # filename是f的固有属性
-    print(file_path)
-    f.save(file_path)
+    # f = request.files.get('pic')
+    # fname = f.filename
+    # print(fname)
+    # file_path = os.path.join('source', f.filename)  # filename是f的固有属性
+    # print(file_path)
+    # f.save(file_path)
     #img_path = ""
+    file_path = request.files.get('url')
     if type_int == 0:
         img_path = yolo_predict(file_path, model, model0)  # 预测图像
     else:
         img_path = yolo_predict(file_path, ry_model, model0)  # 预测图像
     print('f')
-    fname = fname[:-4]
+    #fname = fname[:-4]
     int_name = []
     folderlist = os.listdir(img_path)
     for filename in folderlist:
