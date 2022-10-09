@@ -40,7 +40,7 @@ def get_prediction():
     # print(file_path)
     # f.save(file_path)
     #img_path = ""
-    file_path = request.files.get('url')
+    file_path = request.args.get('url')
     if type_int == 0:
         img_path = yolo_predict(file_path, model, model0)  # 预测图像
     else:
